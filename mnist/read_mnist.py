@@ -15,12 +15,15 @@ class MNIST:
     def getLabel(self):
         return _readLabel(self.fnLabel)
 
+    def getLabelMatrics(self):
+        return _readLabelMatrics(self.fnLabel)
+
     def getImage(self):
         return _readImage(self.fnImage)
 
 
 # ラベルを読み込む
-# return:{ ndarray[1,画像数]}
+# return:{ ndarray[1:画像数]}
 def _readLabel(fnLabel):
     f = open(fnLabel, 'rb')
 
@@ -31,9 +34,32 @@ def _readLabel(fnLabel):
     f.close()
     return label
 
+# ラベルを下記の形式で読み込む
+# 例：２ [0 0 1 0 0 0 0 0 0 0]
+# return]{ ndarray[10:画像数]}
+def _readLabelMatrics(fnlabel):
+    f = open(fnlabel, 'rb')
+
+    header = f.read(8)
+    mn, num = struct.unpack('>2i', header)
+    assert mn == 2049
+    law_labels = np.array(struct.unpack('>%dB' % num, f.read()), dtype=int)
+    f.close()
+
+    # TODO [60000:10]の配列に変換したい。できればfor文を使いたくないnumpyの演算で何とかできないか
+    num = law_labels.shape
+    labels = np.empty([num[0],10])
+    i = 0
+    for num in law_labels:
+        num_matrics = np.zeros([1,10])
+        num_matrics[0,num] = 1
+        labels[i,:] = num_matrics
+        i += 1
+    return labels
+
 
 # 画像を読み込む
-# return{ ndarray[画像数,縦画素数,横画素数]}
+# return{ ndarray[画像数:縦画素数:横画素数]}
 def _readImage(fnImage):
     f = open(fnImage, 'rb')
 
