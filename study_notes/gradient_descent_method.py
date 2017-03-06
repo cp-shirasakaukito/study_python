@@ -16,7 +16,7 @@ def numerical_gradient(f, x):
         grad[idx] = (f(x + H) - f(x - H)) / (2 * h)
     return grad
 
-def gradient_descent(f, init_x, lr= 0.5, step_num=100):
+def gradient_descent(f, init_x, lr= 1.0, step_num=100):
     x = init_x
     x_transition = np.zeros([x.size,step_num+1])
     x_transition[:,0] = init_x
@@ -28,7 +28,7 @@ def gradient_descent(f, init_x, lr= 0.5, step_num=100):
     return x_transition
 
 init_x = np.array([90.0,40.0])
-X_tran = gradient_descent(function_1,init_x,0.01,200)
+X_tran = gradient_descent(function_1,init_x,0.1,10)
 
 x = np.arange(-100,100,0.1)
 y = np.arange(-100,100,0.1)
