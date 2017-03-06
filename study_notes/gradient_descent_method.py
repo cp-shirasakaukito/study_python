@@ -7,10 +7,13 @@ def function_1(x):
     return x[0]**2 + x[1]**2
 
 # 関数fのｘ1,x2における傾き
-# TODO 今の仕様だと0,0に収束しないので解決する
 def numerical_gradient(f, x):
     h = 1e-4
-    grad = (f(x + h) - f(x - h)) / (2 * h)
+    grad = np.zeros_like(x)
+    for idx in range(x.size):
+        H = np.zeros_like(x)
+        H[idx] = h
+        grad[idx] = (f(x + H) - f(x - H)) / (2 * h)
     return grad
 
 def gradient_descent(f, init_x, lr= 0.5, step_num=100):
