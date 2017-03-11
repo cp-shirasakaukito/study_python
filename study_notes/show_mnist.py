@@ -18,7 +18,6 @@ dat = mn.getImage()[offset:nx*ny+offset]
 # 始めの１画像だけ取り出して縦横の画素数を取得
 nrow, ncol = dat.shape[1:]
 
-# 出力する画像の画素数を計算し、下地を作る
 width = nx * (ncol+margin)+margin
 height = ny * (nrow + margin)+margin
 img = np.zeros((width,height), dtype = int) + 200
