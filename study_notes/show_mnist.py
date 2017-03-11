@@ -4,7 +4,7 @@ import read_mnist as mnist
 
 #
 
-offset = 0
+offset = 50
 nx = 10
 ny = 10
 margin = 5
