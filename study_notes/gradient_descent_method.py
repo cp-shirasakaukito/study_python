@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 def function_1(x):
     return x[0]**2 + x[1]**2
 
-# 関数fのｘ1,x2における傾き
-def numerical_gradient(f, x):
+# 関数fのｘ1,x2における傾きを返す
+def _numerical_gradient_no_batch(f, x):
     h = 1e-4
     grad = np.zeros_like(x)
     for idx in range(x.size):
@@ -16,6 +16,20 @@ def numerical_gradient(f, x):
         grad[idx] = (f(x + H) - f(x - H)) / (2 * h)
     return grad
 
+
+def numerical_gradient(f, X):
+    if X.ndim == 1:
+        return _numerical_gradient_no_batch(f, X)
+    else:
+        grad = np.zeros_like(X)
+
+        for idx, x in enumerate(X):
+            grad[idx] = _numerical_gradient_no_batch(f, x)
+
+        return grad
+
+
+# 勾配法で最も出力値が小さくなるであろう入力値を探す
 def gradient_descent(f, init_x, lr= 1.0, step_num=100):
     x = init_x
     x_transition = np.zeros([x.size,step_num+1])
@@ -27,17 +41,18 @@ def gradient_descent(f, init_x, lr= 1.0, step_num=100):
 
     return x_transition
 
-init_x = np.array([90.0,40.0])
-X_tran = gradient_descent(function_1,init_x,0.1,10)
-
-x = np.arange(-100,100,0.1)
-y = np.arange(-100,100,0.1)
-
-X,Y = np.meshgrid(x,y)
-Z = X**2 + Y**2
-plt.contour(X,Y,Z)
-
-plt.plot(X_tran[0],X_tran[1],marker="o")
-
-plt.colorbar()
-plt.show()
+# 動作検証用
+# init_x = np.array([90.0,40.0])
+# X_tran = gradient_descent(function_1,init_x,0.1,10)
+#
+# x = np.arange(-100,100,0.1)
+# y = np.arange(-100,100,0.1)
+#
+# X,Y = np.meshgrid(x,y)
+# Z = X**2 + Y**2
+# plt.contour(X,Y,Z)
+#
+# plt.plot(X_tran[0],X_tran[1],marker="o")
+#
+# plt.colorbar()
+# plt.show()
