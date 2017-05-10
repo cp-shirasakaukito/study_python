@@ -43,6 +43,9 @@ def mean_squared_error(y, t):
     return 0.5 * np.sum((y-t)**2)
 
 
+# TODO 交差エントロピーについてもっと理解を深める必要あり
+# 交差エントロピーと2乗誤差をどのように使い分けるか？
+# https://tyfkda.github.io/blog/2015/12/19/cross-entropy.html
 def cross_entropy_error(y, t):
     if y.ndim == 1:
         t = t.reshape(1, t.size)
