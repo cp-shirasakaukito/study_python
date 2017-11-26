@@ -1,6 +1,4 @@
-import csv
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class csv_handler():
@@ -28,16 +26,3 @@ class csv_handler():
                 group_data_set['not_admitted']['exam2_score'].append(row_data[1])
 
         return group_data_set
-
-#CSVデータを読み込む
-data = csv_handler('ex2data1.txt')
-#配列化する
-grouped_data = data.divide_data_by_group(2)
-
-# データを描画
-plt.scatter(grouped_data['admitted']['exam1_score'],grouped_data['admitted']['exam2_score'],c='green', marker='o')
-plt.scatter(grouped_data['not_admitted']['exam1_score'],grouped_data['not_admitted']['exam2_score'],c='red',marker='x')
-plt.title('Exam result',)
-plt.xlabel('exam1')
-plt.ylabel('exam2')
-plt.show()
